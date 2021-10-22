@@ -1,0 +1,26 @@
+{
+  "name": "Team-Builder",
+  "version": "1.0.0",
+  "description": "This application will function in the command line and allow you to build a developer team. You will be taken through a series of prompts in the command line using inquirer and you will be allowed to populate job titles and in doing so generate a web page of your team.",
+  "main": "index.js",
+  "dependencies": {
+    "inquirer": "^8.2.0"
+  },
+  "devDependencies": {
+    "jest": "^27.3.1"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FilipAlH/Team-Builder.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FilipAlH/Team-Builder/issues"
+  },
+  "homepage": "https://github.com/FilipAlH/Team-Builder#readme"
+}
