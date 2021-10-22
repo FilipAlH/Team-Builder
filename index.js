@@ -11,6 +11,7 @@ const stringCheck = (word) => {
 
 let Engineers = new Array
 let Interns = new Array
+let manager
 
 inquirer
     .prompt([
@@ -37,22 +38,29 @@ inquirer
             message: "What is the your manager's office number?",
             name: 'managerOffice',
         },
+])
+    .then((response) => {
+        manager = new Manager(response.manager, response.managerId, response.managerEmail, response.managerOffice)
+        console.log(manager)
+        inquire()
+    })    
 
+
+function inquire() {
+   inquirer.prompt([
         {
             type: 'list',
             message: 'What would you like to do?',
             name: 'menu',
             choices: ['Add an Engineer', 'Add an Intern', 'Finish building my team'],
         },
-])
-    .then((response) => {
-        let manager = new Manager(response.manager, response.managerId, response.managerEmail, response.managerOffice)
-        console.log(manager)
-        continualQuestioning(response)
-    })
+    ])
+        .then((response) => continualQuestioning(response.menu))
+        
+}
 
-function continualQuestioning(response) {
-    if (response.menu === 'Add an Engineer') {
+function continualQuestioning(responseContinued) {
+    if (responseContinued == 'Add an Engineer') {
         inquirer.prompt([
             {
                 type: 'input',
@@ -81,18 +89,9 @@ function continualQuestioning(response) {
             .then((responseE) => {
                 Engineers.push(responseE)
                 console.log(Engineers)
-
-                inquirer.prompt([
-                    {
-                        type: 'list',
-                        message: 'What would you like to do?',
-                        name: 'menu',
-                        choices: ['Add an Engineer', 'Add an Intern', 'Finish building my team'],
-                    },
-                ])
-                    .then(() => continualQuestioning(response))
+                inquire()
             })
-        } else if(response.menu === 'Add an Intern') {
+        } else if(responseContinued == 'Add an Intern') {
             inquirer.prompt([
                 {
                     type: 'input',
@@ -120,19 +119,20 @@ function continualQuestioning(response) {
             ])
                 .then((responseI) => {
                     Interns.push(responseI)
-                console.log(Interns)
-
-                inquirer.prompt([
-                    {
-                        type: 'list',
-                        message: 'What would you like to do?',
-                        name: 'menu',
-                        choices: ['Add an Engineer', 'Add an Intern', 'Finish building my team'],
-                    },
-                ])
-                    .then(() => continualQuestioning(response))
+                    console.log(Interns)
+                    inquire()
                 })
-        } else {
-
-        }
+        } else { 
+            fs.writeFile('./assets/team.html', 
+`
+${JSON.stringify(Engineers)}
+${JSON.stringify(Interns)}
+${JSON.stringify(manager)}
+`
+            , (err) =>
+                err ? console.log(err) : console.log("Your team's website has been created!")
+            )
+        } 
 }
+
+
