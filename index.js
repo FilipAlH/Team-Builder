@@ -16,6 +16,7 @@ function generateEngineers() {
     for(i = 0; i < Engineers.length; i++){
         EngineersObject[i] = new Engineer(Engineers[i].engineer, Engineers[i].engineerId, Engineers[i].engineerEmail, Engineers[i].engineerGithub)
         EngineersObject[i].createCard()
+        EngineersObject[i].createCardLastLi()
     };  
 }
 
@@ -23,6 +24,7 @@ function generateInterns() {
     for(i = 0; i < Interns.length; i++){
         InternsObject[i] = new Intern(Interns[i].intern, Interns[i].internId, Interns[i].internEmail, Interns[i].internSchool)
         InternsObject[i].createCard()
+        InternsObject[i].createCardLastLi()
     };  
 }
 
@@ -41,18 +43,40 @@ function inquire() {
 Employee.prototype.createCard = function() {
     arrayOfCards.push(
      `
-    <div class="card" style="width: 18rem;">
+    <div class="card m-4" style="width: 18rem;">
         <div class="card-body">
         <h5 class="card-title">${this.getName()}</h5>
         <p class="card-text">${this.getRole()}</p>
         </div>
         <ul class="list-group list-group-flush">
         <li class="list-group-item">Id: ${this.getId()}</li>
-        <li class="list-group-item">Email: ${this.getEmail()}</li>
-        <li class="list-group-item">${Object.keys(this)[3]}: ${this[Object.keys(this)[3]]}</li>
-        </ul>
-    </div>
+        <li class="list-group-item">Email: <a href="mailto:${this.getEmail()}">${this.getEmail()}</a></li>
     `);
+}
+
+Employee.prototype.createCardLastLi = function() {
+    if(this.getRole() === 'Manager') {
+        arrayOfCards.push(
+        `
+            <li class="list-group-item">Office number: ${this[Object.keys(this)[3]]}</li>
+            </ul>
+        </div>
+        `);
+    } else if(this.getRole() === 'Engineer') {
+        arrayOfCards.push(
+        `
+            <li class="list-group-item">Github: <a href="https://github.com/${this[Object.keys(this)[3]]}" target="_blank">${this[Object.keys(this)[3]]}</a></li>
+            </ul>
+        </div>
+        `);
+    } else {
+        arrayOfCards.push(
+        `
+            <li class="list-group-item">School: ${this[Object.keys(this)[3]]}</li>
+            </ul>
+        </div>
+        `);
+    }
 }
 
 inquirer
@@ -152,11 +176,35 @@ function continualQuestioning(responseContinued) {
             })
     } else { 
         manager.createCard()
+        manager.createCardLastLi()
         generateEngineers()
         generateInterns()
 
-        fs.writeFile('./assets/team.html', 
-arrayOfCards.join('')
+        fs.writeFile('./dist/team.html', 
+`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <title>Your Team</title>
+</head>
+<body>
+    <nav class="navbar navbar-light" style="background-color: #e3f2fd; height: 18vh;">
+        <div class="container-fluid" style="justify-content: center;">
+            <span class="navbar-text">
+            <h1>My Team</h1>
+            </span>
+        </div>
+    </nav>
+
+    <main class="p-5" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center;">
+        ${arrayOfCards.join('')}
+    </main>
+    
+</body>
+</html>`
         , (err) =>
             err ? console.log(err) : console.log("Your team's website has been created!")
         )

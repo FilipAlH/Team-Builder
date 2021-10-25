@@ -8,21 +8,21 @@ describe("Manager", () => {
             expect(obj.name).toEqual(undefined);
             expect(obj.id).toEqual(undefined);
             expect(obj.email).toEqual(undefined);
-            expect(obj.office_number).toEqual(undefined);
+            expect(obj.Office).toEqual(undefined);
         });
 
-        it("should set a 'name', 'id' and 'email' when created", () => {
+        it("should set a 'name', 'id', 'email' and 'Office' when created", () => {
             const name = 'Filip';
             const id = 101;
             const email = 'filip.a.11@hotmail.com';
-            const office_number = 80085;
+            const Office = 80085;
 
-            const obj = new Manager(name, id, email, office_number);
+            const obj = new Manager(name, id, email, Office);
 
             expect(obj.name).toEqual(name);
             expect(obj.id).toEqual(id);
             expect(obj.email).toEqual(email);
-            expect(obj.office_number).toEqual(office_number);
+            expect(obj.Office).toEqual(Office);
         });
     });
 
@@ -31,9 +31,9 @@ describe("Manager", () => {
             const name = 'Filip';
             const id = 101;
             const email = 'filip.a.11@hotmail.com';
-            const office_number = 80085;
+            const Office = 80085;
 
-            const obj = new Manager(name, id, email, office_number);
+            const obj = new Manager(name, id, email, Office);
 
             expect(obj.getName()).toEqual('Filip');
         });
@@ -44,9 +44,9 @@ describe("Manager", () => {
             const name = 'Filip';
             const id = 101;
             const email = 'filip.a.11@hotmail.com';
-            const office_number = 80085;
+            const Office = 80085;
 
-            const obj = new Manager(name, id, email, office_number);
+            const obj = new Manager(name, id, email, Office);
 
             expect(obj.getId()).toEqual(101);
         });
@@ -57,9 +57,9 @@ describe("Manager", () => {
             const name = 'Filip';
             const id = 101;
             const email = 'filip.a.11@hotmail.com';
-            const office_number = 80085;
+            const Office = 80085;
 
-            const obj = new Manager(name, id, email, office_number);
+            const obj = new Manager(name, id, email, Office);
 
             expect(obj.getEmail()).toEqual('filip.a.11@hotmail.com');
         });
@@ -70,9 +70,9 @@ describe("Manager", () => {
             const name = 'Filip';
             const id = 101;
             const email = 'filip.a.11@hotmail.com';
-            const office_number = 80085;
+            const Office = 80085;
 
-            const obj = new Manager(name, id, email, office_number);
+            const obj = new Manager(name, id, email, Office);
 
             expect(obj.getRole()).toEqual('Manager');
         });
